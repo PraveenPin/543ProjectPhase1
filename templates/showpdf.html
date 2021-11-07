@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.3/minty/bootstrap.min.css"
+    />
+  </head>
+  <style>
+        .t1{
+            background-color: cornflowerblue;
+            color: white;
+        }
+      .s1{
+        background-color:cornflowerblue;
+          transform: translateY(4px);
+          margin: 20px;
+          float: right;
+        color:white;}
+  </style>
+  <body>
+   <!--<form>
+  <button onclick="openWin()" value="Back" class="s1">BACK TO HOME </button>
+  </form> -->
+     <form class="a">
+ <input type="button" value="Let's Query again!" onclick="history.back()" class="btn btn-light s1">
+</form>
+  <form method="post">
+    <div class="container">
+      <h1>QUERY LOG</h1>
+      <table class="table" id="example" style="border: 1px solid #dddddd; font-weight: bold">
+        <thead class="t1">
+          <tr style="border: 1px solid #dddddd">
+            <th scope="col">Previous Query</th>
+              <th scope="col">Database</th>
+            <th scope="col">Rows Affected</th>
+            <th scope="col">Time Elapsed</th>
+          </tr>
+        </thead>
+        <tbody >
+         {% for row in l1 %}
+             <tr >
+                 {% for i in row %}
+                     <td style="border: 1px solid #dddddd; color:black">{{i}}</td>
+                 {% endfor %}
+             </tr>
+         {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </form>
+  <!--<button class="s1"> <a href="" class="e">History</a> </button>-->
+
+<!--<script>
+    function openWin(){
+        window.open("http://127.0.0.1:5000/");
+    }
+</script>-->
+
+
+  </body>
+</html>

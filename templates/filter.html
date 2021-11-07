@@ -1,0 +1,341 @@
+<HTML xmlns="http://www.w3.org/1999/html">
+
+<head>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-white.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/filter.css') }}">
+    <title>NYC Taxi Fare Prediction</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.0/d3.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="table2excel.js">
+
+    </script>
+
+</head>
+
+<body class="w3-theme-d5" style="border: 30px solid cornflowerblue">
+    <div class="container">
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="parentDiv">
+<!--                    <form method="POST" action="/setBatchSize">-->
+<!--                            <h3 class="header">-->
+<!--                              <p class="headerTag">Get Data insights on</p>-->
+<!--                              <small class="text-muted">-->
+<!--                                  {% if initBatchSize %}-->
+<!--                                    ({{ initBatchSize }} rows)-->
+<!--                                  {% else %}-->
+<!--                                    (default 1 Million rows)-->
+<!--                                  {% endif %}-->
+<!--                              </small>-->
+<!--                            </h3>-->
+<!--                            <div class="row customRow">-->
+
+<!--                                {% if not initBatchSize %}-->
+<!--                                    <div class="input-group mb-3">-->
+<!--                                      <span class="input-group-text" id="basic-addon1">Data Size:</span>-->
+<!--                                        <select class="form-select" aria-label="Default select example" name="batchSize">-->
+<!--                                          <option value="1000000" selected>1 Million</option>-->
+<!--                                          <option value="100000">1 Lakh</option>-->
+<!--                                          <option value="10000000">10 Million</option>-->
+<!--                                          <option value="10000">10 K</option>-->
+<!--                                        </select>-->
+<!--                                    </div>-->
+<!--                                     <input type="submit" value=" RUN " class="btn btn-light bt">-->
+<!--                                {% endif %}-->
+<!--                            </div>-->
+<!--                        </form>-->
+<!--                    <form class="Form" method="POST" action="/getRidesBasedOnLocation">-->
+<!--                            {% if not canAccessImage %}-->
+<!--                                <div class="row customRow">-->
+<!--                                    <h6 class="header">Click to get the following plots -> 1) Fares vs Passengers 2) Fares vs Year</h6>-->
+<!--                                    <input type="submit" value=" RUN " class="btn btn-light bt">-->
+<!--                                </div>-->
+<!--                            {% else %}-->
+<!--                                <div>-->
+<!--                                    {% if canAccessImage  %}-->
+<!--                                    <img src="{{ url_for('static', filename='fare_vs_passengers.png') }}" width="100%" >-->
+<!--                                    <img src="{{ url_for('static', filename='fare_vs_year.png') }}" width="100%">-->
+<!--                                    {% endif %}-->
+<!--                                </div>-->
+<!--                            {% endif %}-->
+<!--                        </form>-->
+
+<!--                    <h5 class="h5custom"> Clean the data using following options:</h5>-->
+<!--                    <div class="dataCleaningDiv">-->
+<!--                        <form method="POST" action="/dataCleaningStep1">-->
+<!--                            <h6>-->
+<!--                              Fix Fare Rides-->
+<!--                            </h6>-->
+<!--                            <div class="row dataCleaningRow">-->
+<!--                                <input type="submit" value="Clean Step 1" class="btn btn-light bt">-->
+<!--                            </div>-->
+<!--                        </form>-->
+<!--                        <form method="POST" action="/dataCleaningStep2">-->
+<!--                            <h6>-->
+<!--                              Remove NaN values-->
+<!--                            </h6>-->
+<!--                            <div class="row dataCleaningRow">-->
+<!--                                <input type="submit" value="Clean Step 2" class="btn btn-light bt">-->
+<!--                            </div>-->
+<!--                        </form>-->
+<!--                        <form method="POST" action="/dataCleaningStep3">-->
+<!--                            <h6>-->
+<!--                              Remove Zeros values-->
+<!--                            </h6>-->
+<!--                            <div class="row dataCleaningRow">-->
+<!--                                <input type="submit" value="Clean Step 3 " class="btn btn-light bt">-->
+<!--                            </div>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                            {% if step1Response  %}-->
+<!--                                Message: <p class="cleanResponse">{{ step1Response}}</p>-->
+<!--                            {% endif %}-->
+<!--                        </div>-->
+<!--                        <div>-->
+<!--                            {% if step2Response  %}-->
+<!--                                Message: <p class="cleanResponse">{{ step2Response}}</p>-->
+<!--                            {% endif %}-->
+<!--                        </div>-->
+<!--                        <div>-->
+<!--                            {% if step3Response  %}-->
+<!--                                Message: <p class="cleanResponse">{{ step3Response}}</p>-->
+<!--                            {% endif %}-->
+<!--                        </div>-->
+                    <form style="text-align:center;" class="Form" method="POST" action="/getAverageFares">
+                            <h4>
+                              Get Average Fares based on month, weekday, hour
+                            </h4>
+                            <div class="row customRow">
+                                <input type="submit" value="Get Fares" class="btn btn-light bt">
+                            </div>
+                    </form>
+                    <div style="text-align: center;">
+                        {% for fileName in farePlots %}
+                            <img align="center" src="{{  fileName  }}" width="50%"/>
+                        {% endfor %}
+                    </div>
+<!--                   <form class="Form" method="POST" action="/getAreaWiseRides">-->
+<!--                        <div class="row customRow">-->
+<!--                                    <div class="input-group mb-3">-->
+<!--                                      <span class="input-group-text" id="basic-addon1">Get Area Wise Rides:</span>-->
+<!--                                    <select class="form-select" aria-label="Default select example" name="area">-->
+<!--                                        <option value="1" selected>New York</option>-->
+<!--                                      <option value="2">Brooklyn</option>-->
+<!--                                      <option value="3">Bronx</option>-->
+<!--                                      <option value="4">Manhattan</option>-->
+<!--                                      <option value="5">JFK</option>-->
+<!--                                    </select>-->
+<!--                                    </div>-->
+<!--                                     <input type="submit" value=" Get Rides " class="btn btn-light bt">-->
+<!--                            </div>-->
+<!--                    </form>-->
+<!--                    <div>-->
+<!--                        {% if rides  %}
+<!--                            <p class="cleanResponse">{{ rides }}</p>-->
+<!--                        {% endif %}-->
+<!--                    </div>-->
+                   <form class="Form" method="POST" action="/getHeatMaps">
+                       <div class="row customRow">
+                                <div class="input-group mb-3">
+                                  <span class="input-group-text" id="basic-addon1">Get Area Wise Rides:</span>
+                                    <select class="form-select" aria-label="Default select example" name="area">
+                                      <option value="1" selected>New York</option>
+                                      <option value="2">Brooklyn</option>
+                                      <option value="3">Bronx</option>
+                                      <option value="4">Manhattan</option>
+                                      <option value="5">JFK</option>
+                                    </select>
+                                </div>
+                                 <input type="submit" value=" Get Area Map  " class="btn btn-light bt">
+                            </div>
+                    </form>
+                    <div>
+                        {% if plotAreaName %}
+                            <p>Plot Name: {{ plotAreaName }}</p>
+                        {% endif %}
+                        {% for fileName in isPlotCreated %}
+                            <img align="center" src="{{  fileName  }}" width="100%"/>
+                        {% endfor %}
+                    </div>
+                    <form class="Form" method="POST" action="/otherPlots">
+                       <div class="row customRow">
+                                <div class="input-group mb-3">
+                                  <span class="input-group-text" id="basic-addon1">Get Plots on:</span>
+                                    <select class="form-select" aria-label="Default select example" name="special">
+                                      <option value="1" selected>Snow Season Rides</option>
+                                      <option value="2">Midnight Rides</option>
+                                      <option value="3">Rush Hour Rides</option>
+                                    </select>
+                                </div>
+                                 <input type="submit" value=" Get Plots  " class="btn btn-light bt">
+                            </div>
+                    </form>
+                    <div>
+                        {% if plotName %}
+                            <p>Plot Name: {{ plotName }}</p>
+                        {% endif %}
+                        {% for fileName in isOtherPlotCreated %}
+                            <img align="center" src="{{  fileName  }}" width="100%"/>
+                        {% endfor %}
+                    </div>
+<!--                   <form class="Form" method="POST" action="/getStreetMaps">-->
+<!--                       <div class="row customRow">-->
+<!--                                <div class="input-group mb-3">-->
+<!--                                  <span class="input-group-text" id="basic-addon1">Get Street Map Rides:</span>-->
+<!--                                    <select class="form-select" aria-label="Default select example" name="area">-->
+<!--                                      <option value="1" selected>New York</option>-->
+<!--                                      <option value="2">Brooklyn</option>-->
+<!--                                      <option value="3">Bronx</option>-->
+<!--                                      <option value="4">Manhattan</option>-->
+<!--                                      <option value="5">JFK</option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
+<!--                                 <input type="submit" value=" Get Street Map  " class="btn btn-light bt">-->
+<!--                            </div>-->
+<!--                    </form>-->
+<!--                    <div>-->
+<!--                        {% if isStreetMapCreated  %}-->
+<!--                        <img src="{{ url_for('static', filename='bronx_rides_400.png') }}" width="100%">-->
+<!--                        {% endif %}-->
+<!--                    </div>-->
+                    <h5 class="h4custom"> Other useful plots: </h5>
+                   <form class="Form" method="POST" action="/getDensityHeatMap">
+                       <div class="row customRow">
+                            <input type="submit" value=" Get Density Map of NYC" class="btn btn-light bt">
+                       </div>
+                    </form>
+                    <div style="text-align:center;">
+                        {% if isDensityPlotSaved  %}
+                        <img src="{{ url_for('static', filename='density_plot.png') }}" width="50%">
+                        {% endif %}
+                    </div>
+                   <form class="Form" method="POST" action="/distancePlots">
+                       <div class="row customRow">
+                            <div class="input-group mb-3">
+                              <span class="input-group-text" id="basic-addon1">Get Distance Maps:</span>
+                                <select class="form-select" aria-label="Default select example" name="area">
+                                  <option value="1" selected>Brooklyn</option>
+                                  <option value="2">Bronx</option>
+                                  <option value="3">JFK</option>
+                                </select>
+                            </div>
+                            <input type="submit" value="Get Distance Plots" class="btn btn-light bt">
+                        </div>
+                    </form>
+                    <div style="text-align:center;">
+                        {% if distancePlotName %}
+                            <p>Plot Name: {{ distancePlotName }}</p>
+                        {% endif %}
+                        {% for fileName in isDistancePlotSaved %}
+                            <img align="center" src="{{  fileName  }}" width="50%"/>
+                        {% endfor %}
+                    </div>
+<!--                        {% if isDistancePlot1Saved  %}-->
+<!--                        <img src="{{ url_for('static', filename='distance_vs_histogram.png') }}" width="100%">-->
+<!--                        {% endif %}-->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                        {% if isDistancePlot2Saved  %}-->
+<!--                        <img src="{{ url_for('static', filename='distance_vs_fare.png') }}" width="100%">-->
+<!--                        {% endif %}-->
+<!--                    </div>-->
+
+
+            <script>
+                function makepdf(){
+                    var printMe=document.getElementById('example');
+                    var wme=window.open("","","width:700,height=900");
+                    wme.document.write(printMe.outerHTML);
+                    wme.document.close();
+                    wme.focus();
+                    wme.print();
+                    wme.close()
+                }
+            </script>
+            <script>
+            function downloadCSV(csv, filename) {
+                var csvFile;
+                var downloadLink;
+
+                // CSV file
+                csvFile = new Blob([csv], {type: "text/csv"});
+
+                // Download link
+                downloadLink = document.createElement("a");
+
+                // File name
+                downloadLink.download = filename;
+
+                // Create a link to the file
+                downloadLink.href = window.URL.createObjectURL(csvFile);
+
+                // Hide download link
+                downloadLink.style.display = "none";
+
+                // Add the link to DOM
+                document.body.appendChild(downloadLink);
+
+                // Click download link
+                downloadLink.click();
+            }
+            function exportTableToCSV(filename) {
+                var csv = [];
+                var rows = document.querySelectorAll("table tr");
+
+                for (var i = 0; i < rows.length; i++) {
+                    var row = [], cols = rows[i].querySelectorAll("td, th");
+
+                    for (var j = 0; j < cols.length; j++)
+                        row.push(cols[j].innerText);
+
+                    csv.push(row.join(","));
+                }
+
+                // Download CSV file
+                downloadCSV(csv.join("\n"), filename);
+            }
+            </script>
+            <script>
+                function exportTableToExcel(tableID, filename = ''){
+                var downloadLink;
+                var dataType = 'application/vnd.ms-excel';
+                var tableSelect = document.getElementById(tableID);
+                var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+                // Specify file name
+                filename = filename?filename+'.xls':'excel_data.xls';
+
+                // Create download link element
+                downloadLink = document.createElement("a");
+
+                document.body.appendChild(downloadLink);
+
+                if(navigator.msSaveOrOpenBlob){
+                    var blob = new Blob(['\ufeff', tableHTML], {
+                        type: dataType
+                    });
+                    navigator.msSaveOrOpenBlob( blob, filename);
+                }else{
+                    // Create a link to the file
+                    downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+                    // Setting the file name
+                    downloadLink.download = filename;
+
+                    //triggering the function
+                    downloadLink.click();
+                }
+            }
+            </script>
+        </div>
+        <div class="col-1"></div>
+
+    </div>
+</body>
+
+</HTML>

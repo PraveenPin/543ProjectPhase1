@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>NYC Taxi Fare Prediction</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/filter.css') }}">
+
+</head>
+<style>
+    .ci{
+        display: block;
+  margin: auto;
+  width: 80%;
+
+    }
+    .cp{
+        display: block;
+  margin-left: auto;
+  margin-right: auto;
+        margin-top:-100px;
+        margin-bottom: -100px;
+  width: 80%;
+
+    }
+    .c2{
+        font-size:20px;
+        font-family: Arial;
+    }
+    .c3{
+        font-size:20px;
+    }
+
+    </style>
+<body>
+<form method="post" action="index.html">
+    <div class="ci">
+        <div style="text-align:center">
+            <h2>New York City Taxi Fare Prediction</h2>
+            <h2> Fall 2021: CS543 Group 1 Project Report</h2>
+            <h2>Supervised by Prof. J. Abello </h2>
+            <img src="../static/nyc_taxi_fare_prediction.jpg" width="75%" alt="error">
+        </div>
+    </div>
+    <div class="filterDiv" >
+
+        <a class="filterLink" href="filter" class="btn btn-light bt" >
+            <div >
+    <!--            <button class="btn btn-light bt" onclick="location.href='filter'" type="button">Go to Custom Filters</button>-->
+                Go To Filter Section
+            </div>
+        </a>
+    </div>
+    <u><h2>First Observations</h2></u>
+    <p>
+
+      <ul style="list-style-type:disc">
+          <li> <p class="c2">There are negative fares. And while they may have a good explanation for why they're in the dataset (such as due to refunds), I don't think it's reasonable to expect that a significant portion of the test dataset would feature negative fares. And, since we've got a gigantic dataset, there's little harm in dropping any data that contains unhelpful information.</p></li>
+    <li> <p class="c2">Furthermore, in researching the NYC Taxi rates, I see that that standard base charge for any taxi is $2.50, so I'm dropping everything from the dataset that's less than that.</p></li>
+    <li> <p class="c2">Is there any missing data? If so, how many rows are affected? Does the test set contain missing data?</p></li>
+    <li> <p class="c2">Is it possible that some of the Latitude and Longitude coordinates are swapped? Or is everything that is outside the scope of the city just junk data?</p></li>
+        <li> <p class="c2">How can there be 0 passengers?</li>
+    <li> <p class="c2">To be useful for exploration and prediction, I'll need to convert the dates from a timestamp object to individual colums for different aspects like, hour of the day, month, year, etc.</p></li>
+      </ul>
+    </p>
+<div>
+    <u>   <h2>Remove all fares less than $2.50:</h2></u>
+    <p class="c3">
+
+        Old size: 55423856</p>
+    <p class="c3"> New size: 55419109</p>
+    <p class="c3"> Dropped 4747 records, or 0.01%</p>
+
+</div>
+
+
+<div>
+    <u>  <h2>Remove missing data:</h2></u>
+   <p class="c3">
+
+       Dropping all rows with NaNs</p>
+    <p class="c3"> Old size: 55419109</p>
+    <p class="c3"> New size: 55418733</p>
+    <p class="c3"> Dropped 376 records, or 0.00%</p>
+
+</div>
+    <div>
+        <u> <h2>Remove 0's from dataset:</h2></u>
+    <p>
+        <p class="c3">
+
+       Dropping all rows with 0s:
+
+    <p class="c3">Old size: 54080857</p>
+    <p class="c3"> New size: 54080857</p>
+    <p class="c3"> Dropped 0 records, or 0.00%</p>
+</p>
+
+    </p>
+
+</div>
+    <div>
+        <h2>What to do about these outliers?</h2>
+        <p class="c2">The bounding box with inverted coordinates is located in Antartica, so obviously that part of the data is invalid. However, there are 955 records here which have these inverted coordinates, and it's pretty easy to see how this might have happened: the latitude and longitude probably were accidentally swapped. And notice how all the datapoints within the swapped window of lat/lon all seem to be clustered together? It appears that perhaps a cab or a cab company was mistakenly configured for the latitude to record in the longitude column and vice versa.
+            While 955 records out of 2 million is not even statistically meaningful, it's an easy enough task to convert this data back to a usable state and which likely is accurate to the original source. So I'll end up swapping these values and reincorporating them into the train dataframe.</h2>
+        </p>
+    </div>
+
+    <p class="c2"> Now we'll remove all rows with a datapoint that doesn't fall within the bounding box for NYC coordinates</p>
+<div> <p class="c2"> Old size: 54124121
+    New size: 54054163 </p></div>
+
+<h2>Different types of graphs:</h2>
+    <h2>Graph of fare_amount vs pickup_longitude and pickup_latitude</h2>
+
+    <p><img class="c1" src="../static/img1.png" alt="error"></p>
+<h2>Graph of fare_amount vs dropoff_longitude and dropoff_latitude</h2>
+   <p> <img class="c1" src="../static/img2.png" alt="error"></p>
+
+<h2>Graph of fare_amount vs  passenger_count</h2>
+   <p> <img class="c1" src="../static/img3.png" alt="error"></p>
+    <h2>Plotting on map(pickup_locations & dropoff_location)</h2>
+   <p> <img class="cp" src="../static/img5.png" alt="error"></p>
+    <h2>Plotting on map(Zoomed-In)</h2>
+   <p> <img class="cp" src="../static/img6.png" alt="error"></p>
+<!--     <h2>Graph to differentiate between land & water</h2>-->
+<!--    <p class="c2"> Land = True, Water = False , True is show in black, False in white</p>-->
+<!--   <p> <img class="c1" src="../static/img7.png" alt="error"></p>-->
+    <h2>Plot Hire</h2>
+
+   <p> <img class="c1" src="../static/hire.png" alt="error"></p>
+</form>
+
+
+</body>
+</html>

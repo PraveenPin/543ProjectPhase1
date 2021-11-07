@@ -1,0 +1,66 @@
+.header{
+    display: flex
+}
+
+.header > small{
+    margin-top: 15px !important;
+}
+
+.headerTag{
+    margin: 12px
+}
+
+.customRow{
+    display: flex;
+    justify-content: center;
+}
+
+.customRow > input{
+    background: #ddd9d9;
+    width: auto;
+    align-self: center;
+}
+
+.dataCleaningDiv{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.dataCleaningDiv > form > h6{
+    font-weight: bold;
+}
+
+.dataCleaningRow > input{
+    background: #ddd9d9;
+}
+
+.cleanResponse{
+    font-style: italic;
+    color: brown
+}
+
+.form{
+    margin: 100px 0px 0px 0px
+}
+
+.h5custom{
+    margin-top: 100px
+}
+
+.h4custom{
+    margin-top: 24px
+}
+
+.filterDiv{
+    background-color: #e5e5e5;
+    text-align: center;
+    padding: 12px;
+    border: 1px;
+    border-radius: 4px;
+    margin: 0px 20%;
+}
+
+.filterLink{
+    text-decoration: unset;
+    color: #9b0f27 !important;
+}

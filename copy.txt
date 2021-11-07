@@ -1,0 +1,2 @@
+Draw figures based on destinations rather than pickups
+Color the graphs based on fare amount
